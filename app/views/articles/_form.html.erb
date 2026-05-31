@@ -1,0 +1,181 @@
+<%= form_with(model: article) do |form| %>
+  <% if article.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+      <ul>
+        <% article.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- 削除アタッチメントIDの格納コンテナ -->
+  <div id="purge-fields-container"></div>
+
+  <div class="form-group">
+    <%= form.label :title, "タイトル", style: "display: block" %>
+    <%= form.text_field :title, placeholder: "タイトルを入力してください" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :content, "本文", style: "display: block" %>
+    <%= form.textarea :content, rows: 6, placeholder: "本文を入力してください" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :files, "ファイルを添付", style: "display: block" %>
+    <div class="file-input-wrapper">
+      <%= form.file_field :files, multiple: true, class: "file-input" %>
+      <div class="file-input-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>ファイルを選択（画像、PDFなど複数可）</span>
+      </div>
+    </div>
+    
+    <!-- 新規選択ファイルのリアルタイム表示プレビュー -->
+    <div id="new-files-preview" class="new-files-preview-container"></div>
+  </div>
+
+  <% if article.persisted? && article.files.attached? %>
+    <div class="attached-files-section">
+      <h4>アップロード済みのファイル</h4>
+      <div class="attached-files-grid">
+        <% article.files.each do |file| %>
+          <div class="attached-file-item" data-id="<%= file.id %>">
+            <div class="file-preview">
+              <% if file.image? %>
+                <%= image_tag file, class: "preview-img" %>
+              <% elsif file.content_type == "application/pdf" %>
+                <div class="file-icon pdf">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span class="ext-badge">PDF</span>
+                </div>
+              <% else %>
+                <div class="file-icon doc">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span class="ext-badge"><%= file.filename.extension.to_s.upcase %></span>
+                </div>
+              <% end %>
+            </div>
+            <div class="file-meta">
+              <span class="file-name" title="<%= file.filename %>"><%= file.filename.to_s.truncate(15) %></span>
+              <span class="file-size"><%= number_to_human_size(file.byte_size) %></span>
+            </div>
+            
+            <!-- 遅延削除トグルボタン（JavaScriptトリガー、Nest Form問題を回避） -->
+            <button type="button" class="btn-toggle-delete" data-id="<%= file.id %>" title="削除予定にする">
+              <svg class="icon-trash" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+              <svg class="icon-undo" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= form.submit "保存する", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<!-- 新規ファイル名リアルタイムプレビュー＆遅延削除トグルのための軽量JavaScript -->
+<script>
+  (function() {
+    function setupFormBehavior() {
+      const fileInput = document.querySelector(".file-input");
+      const newPreview = document.getElementById("new-files-preview");
+
+      // 1. 新規ファイル選択時に名前を表示する
+      if (fileInput && newPreview) {
+        fileInput.addEventListener("change", function(e) {
+          newPreview.innerHTML = "";
+          const files = e.target.files;
+          if (files.length > 0) {
+            const title = document.createElement("div");
+            title.className = "new-files-title";
+            title.innerText = `追加予定のファイル (${files.length} 件)`;
+            newPreview.appendChild(title);
+
+            const grid = document.createElement("div");
+            grid.className = "new-files-grid";
+
+            Array.from(files).forEach(file => {
+              const item = document.createElement("div");
+              item.className = "new-file-item";
+              
+              // サイズの人間用フォーマット
+              let sizeText = "";
+              if (file.size > 1024 * 1024) {
+                sizeText = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+              } else {
+                sizeText = `${(file.size / 1024).toFixed(1)} KB`;
+              }
+
+              item.innerHTML = `
+                <div class="new-file-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="new-file-meta">
+                  <span class="new-file-name" title="${file.name}">${file.name}</span>
+                  <span class="new-file-size">${sizeText}</span>
+                </div>
+              `;
+              grid.appendChild(item);
+            });
+            newPreview.appendChild(grid);
+          }
+        });
+      }
+
+      // 2. 既存ファイルのゴミ箱トグル処理
+      const attachedSection = document.querySelector(".attached-files-section");
+      const purgeContainer = document.getElementById("purge-fields-container");
+
+      if (attachedSection && purgeContainer) {
+        attachedSection.addEventListener("click", function(e) {
+          const button = e.target.closest(".btn-toggle-delete");
+          if (!button) return;
+
+          e.preventDefault();
+          const fileId = button.dataset.id;
+          const fileItem = button.closest(".attached-file-item");
+
+          if (fileItem) {
+            const isMarked = fileItem.classList.toggle("marked-for-delete");
+            
+            if (isMarked) {
+              // 削除対象の隠しinputを追加
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = "purge_file_ids[]";
+              input.value = fileId;
+              input.id = `purge-input-${fileId}`;
+              purgeContainer.appendChild(input);
+              
+              button.title = "削除を取り消す";
+              button.classList.add("marked");
+            } else {
+              // 隠しinputを削除
+              const input = document.getElementById(`purge-input-${fileId}`);
+              if (input) input.remove();
+              
+              button.title = "削除予定にする";
+              button.classList.remove("marked");
+            }
+          }
+        });
+      }
+    }
+
+    // Turbo遷移時と通常のリロード時の両方で動作を保証
+    document.addEventListener("turbo:load", setupFormBehavior);
+    // 初回ロード用
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+      setupFormBehavior();
+    } else {
+      document.addEventListener("DOMContentLoaded", setupFormBehavior);
+    }
+  })();
+</script>
