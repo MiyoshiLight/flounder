@@ -24,3 +24,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed all Japanese comments and redundant boilerplate routing comments from `ArticlesController`, `UpdateInteractor`, and `Article` model.
 - Added path configuration for recursively loading locales subdirectories in `config/application.rb`.
 - Updated `.agents/rules/code-style-guide.md` to document strict guidelines for views comments exclusion, SVG separation, no inline JavaScript, no Japanese comments, and component-based locales management.
+- Commented out JavaScript security scanning and system test jobs in GitHub Actions CI workflow.
+
