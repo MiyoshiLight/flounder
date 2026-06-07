@@ -1,9 +1,9 @@
-<% content_for :title, "New article" %>
+<% content_for :title, t("articles.new.title") %>
 
 <div class="form-container">
   <div class="form-header">
-    <h1 class="page-title">新しい記事の投稿</h1>
-    <p class="form-subtitle">タイトル、本文を入力し、画像やPDFなどのファイルを添付できます。</p>
+    <h1 class="page-title"><%= t("articles.new.title") %></h1>
+    <p class="form-subtitle"><%= t("articles.new.description") %></p>
   </div>
 
   <div class="form-card">
@@ -12,8 +12,8 @@
 
   <div class="form-footer">
     <%= link_to articles_path, class: "btn-back-link" do %>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      一覧に戻る
+      <%= embedded_svg("arrow-left") %>
+      <%= t("articles.new.back") %>
     <% end %>
   </div>
 </div>

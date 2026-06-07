@@ -1,0 +1,41 @@
+en:
+  articles:
+    index:
+      title: "Shared Documents & Articles"
+      new_post: "New Article"
+      no_attachments: "No attachments"
+      files_count: "%{count} files"
+      files: "%{count} files"
+      view_details: "View details"
+    show:
+      posted_at: "Posted at: %{date}"
+      attachments: "Attachments (%{count})"
+      gallery: "Image Gallery"
+      download: "Download"
+      documents: "Documents"
+      open: "Open"
+      download_short: "DL"
+      edit: "Edit"
+      back: "Back to List"
+      delete: "Delete"
+      confirm_delete: "Are you sure?"
+    new:
+      title: "New Article"
+      back: "Back to List"
+    edit:
+      title: "Edit Article"
+      show: "Show"
+      back: "Back to List"
+    form:
+      title: "Title"
+      title_placeholder: "Enter title"
+      content: "Content"
+      content_placeholder: "Enter content"
+      files: "Attach files"
+      choose_files: "Choose files (images, PDFs, etc.)"
+      uploaded_files: "Uploaded files"
+      save: "Save"
+      delete_title: "Mark for deletion"
+      undo_delete_title: "Undo deletion"
+      js:
+        add_files_title: "Files to add (%{count})"

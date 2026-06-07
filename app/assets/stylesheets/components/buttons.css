@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Buttons and Forms Base
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-edit {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-edit:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+}
+
+.btn-back {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-back:hover {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.btn-danger {
+  background: var(--danger-gradient);
+  color: #fff;
+  border: none;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-danger:hover {
+  opacity: 0.95;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.inline-form {
+  display: inline;
+}
+
+/* ==========================================================================
+   Utilities & Flash Notice
+   ========================================================================== */
+.flash-notice {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success-color);
+  color: var(--success-color) !important;
+  padding: 1rem;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 2rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flash-notice:empty {
+  display: none;
+}

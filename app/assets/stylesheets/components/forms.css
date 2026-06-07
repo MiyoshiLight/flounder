@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Form Container & Form Card (New / Edit Views)
+   ========================================================================== */
+.form-container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.form-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.form-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--box-shadow);
+}
+
+.form-group {
+  margin-bottom: 1.75rem;
+}
+
+.form-group label {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Premium Custom Upload Input */
+.file-input-wrapper {
+  position: relative;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: 2rem;
+  text-align: center;
+  background-color: rgba(15, 23, 42, 0.2);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.file-input-wrapper:hover {
+  border-color: var(--accent-color);
+  background-color: rgba(129, 140, 248, 0.02);
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.file-input-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.file-input-trigger svg {
+  color: var(--accent-color);
+  transition: var(--transition-smooth);
+}
+
+.file-input-wrapper:hover .file-input-trigger svg {
+  transform: translateY(-3px);
+}
+
+.file-input-trigger span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Edit View: Uploaded Files Management Grid */
+.attached-files-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.75rem;
+  margin-top: 2rem;
+}
+
+.attached-files-section h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.attached-files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+}
+
+.attached-file-item {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: 0.75rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.attached-file-item:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.file-preview {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-meta {
+  width: 100%;
+}
+
+.attached-file-item .file-name {
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  color: var(--text-primary);
+}
+
+.attached-file-item .file-size {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-actions .btn {
+  width: 100%;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.flex-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider {
+  color: var(--border-color);
+}
+
+.btn-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.btn-back-link:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Delayed Purge & Selected Files Preview Styles
+   ========================================================================== */
+/* 既存ファイルの削除予定状態 */
+.attached-file-item.marked-for-delete {
+  border-color: var(--danger-color) !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
+  filter: grayscale(80%);
+  opacity: 0.35;
+  transition: var(--transition-smooth);
+}
+
+.attached-file-item.marked-for-delete::after {
+  content: '削除予定';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  background: var(--danger-gradient);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 削除トグルボタン */
+.btn-toggle-delete {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--danger-gradient);
+  border: none;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  transition: var(--transition-smooth);
+  opacity: 0;
+  z-index: 10;
+}
+
+.attached-file-item:hover .btn-toggle-delete {
+  opacity: 1;
+}
+
+.btn-toggle-delete:hover {
+  transform: scale(1.1) rotate(15deg);
+}
+
+/* アイコン切り替え */
+.btn-toggle-delete .icon-undo {
+  display: none;
+}
+
+.btn-toggle-delete.marked {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+  opacity: 1 !important; /* 削除予定時は常にボタンを表示したままにする */
+}
+
+.btn-toggle-delete.marked .icon-trash {
+  display: none;
+}
+
+.btn-toggle-delete.marked .icon-undo {
+  display: block;
+}
+
+/* 新規選択ファイルのプレビュー表示 */
+.new-files-preview-container {
+  margin-top: 1.25rem;
+  transition: var(--transition-smooth);
+}
+
+.new-files-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.new-files-title::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+}
+
+.new-files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.new-file-item {
+  background-color: rgba(129, 140, 248, 0.04);
+  border: 1px dashed rgba(129, 140, 248, 0.25);
+  border-radius: var(--border-radius-sm);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: slideUp 0.25s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.new-file-icon {
+  flex-shrink: 0;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-file-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.new-file-name {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.new-file-size {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}

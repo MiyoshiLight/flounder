@@ -1,0 +1,41 @@
+ja:
+  articles:
+    index:
+      title: "共有ドキュメント & 記事一覧"
+      new_post: "新規記事を投稿"
+      no_attachments: "添付ファイルなし"
+      files_count: "%{count} 個のファイル"
+      files: "%{count} ファイル"
+      view_details: "詳細を見る"
+    show:
+      posted_at: "投稿日時: %{date}"
+      attachments: "添付ファイル (%{count})"
+      gallery: "画像ギャラリー"
+      download: "ダウンロード"
+      documents: "ドキュメント"
+      open: "開く"
+      download_short: "DL"
+      edit: "編集する"
+      back: "一覧に戻る"
+      delete: "削除する"
+      confirm_delete: "本当に削除しますか？"
+    new:
+      title: "新規記事の投稿"
+      back: "一覧に戻る"
+    edit:
+      title: "記事の編集"
+      show: "詳細"
+      back: "一覧に戻る"
+    form:
+      title: "タイトル"
+      title_placeholder: "タイトルを入力してください"
+      content: "本文"
+      content_placeholder: "本文を入力してください"
+      files: "ファイルを添付"
+      choose_files: "ファイルを選択（画像、PDFなど複数可）"
+      uploaded_files: "アップロード済みのファイル"
+      save: "保存する"
+      delete_title: "削除予定にする"
+      undo_delete_title: "削除を取り消す"
+      js:
+        add_files_title: "追加予定のファイル (%{count} 件)"

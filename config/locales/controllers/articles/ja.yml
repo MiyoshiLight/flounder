@@ -1,0 +1,8 @@
+ja:
+  articles:
+    create:
+      success: "記事を作成しました。"
+    update:
+      success: "記事を更新しました。"
+    destroy:
+      success: "記事を削除しました。"
